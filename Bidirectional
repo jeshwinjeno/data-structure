@@ -1,0 +1,62 @@
+void insertAtBeginning(struct BidirectionalLinkedList* list, int data) {
+    struct BidirectionalListNode* newNode = createNode(data);
+    if (newNode == NULL) {
+        return; // Failed to allocate memory
+    }
+    
+    if (list->head == NULL) {
+        list->head = newNode;
+        list->tail = newNode;
+    } else {
+        newNode->next = list->head;
+        list->head->prev = newNode;
+        list->head = newNode;
+    }
+}
+void insertAtEnd(struct BidirectionalLinkedList* list, int data) {
+    struct BidirectionalListNode* newNode = createNode(data);
+    if (newNode == NULL) {
+        return; 
+    }
+    
+    if (list->tail == NULL) {
+        list->head = newNode;
+        list->tail = newNode;
+    } else {
+        newNode->prev = list->tail;
+        list->tail->next = newNode;
+        list->tail = newNode;
+    }
+}
+int main() {
+    struct BidirectionalLinkedList* list = createBidirectionalLinkedList();
+
+    // Insert at beginning
+    insertAtBeginning(list, 1);
+    insertAtBeginning(list, 2);
+    insertAtBeginning(list, 3);
+
+    // Insert at end
+    insertAtEnd(list, 4);
+    insertAtEnd(list, 5);
+
+    // Print the bidirectional linked list forwards
+    printf("Forward traversal: ");
+    struct BidirectionalListNode* current = list->head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+
+   
+    printf("Backward traversal: ");
+    current = list->tail;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->prev;
+    }
+    printf("NULL\n");
+
+    return 0;
+}
