@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int compare(const void *a, const void *b) {
+    return (*(char *)a - *(char *)b);
+}
+
+
+void sortString(char *str) {
+    int len = strlen(str);
+
+    qsort(str, len, sizeof(char), compare);
+}
+
+int main() {
+    char str[] = "openai"; 
+
+    printf("Original string: %s\n", str);
+
+    
+    sortString(str);
+
+    printf("Sorted string: %s\n", str);
+
+    return 0;
+}
