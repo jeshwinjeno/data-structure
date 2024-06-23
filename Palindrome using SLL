@@ -1,0 +1,156 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h> 
+
+
+struct Node {
+    char data;
+    struct Node* next;
+};
+
+
+void insertAtBeginning(struct Node** headRef, char newData) {
+  
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return;
+    }
+
+    
+    newNode->data = newData;
+    newNode->next = *headRef;
+
+   
+    *headRef = newNode;
+}
+
+
+void printList(struct Node* head) {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%c -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+
+struct Node* reverseList(struct Node* head) {
+    struct Node* prev = NULL;
+    struct Node* current = head;
+    struct Node* next = NULL;
+
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+
+    return prev; 
+}
+
+
+bool isPalindrome(struct Node* head) {
+    if (head == NULL 
+        return true; 
+    }
+
+    struct Node* slow = head;
+    struct Node* fast = head;
+    struct Node* prevSlow = head;
+    struct Node* midNode = NULL;
+    bool result = true;
+
+    
+    while (fast != NULL && fast->next != NULL) {
+        fast = fast->next->next;
+        prevSlow = slow;
+        slow = slow->next;
+    }
+
+    
+    if (fast != NULL) { 
+        midNode = slow;
+        slow = slow->next;
+    }
+
+    
+    struct Node* secondHalf = reverseList(slow);
+    prevSlow->next = NULL; 
+
+ 
+    struct Node* firstHalf = head;
+    struct Node* secondHalfTemp = secondHalf;
+    while (firstHalf != NULL && secondHalfTemp != NULL) {
+        if (firstHalf->data != secondHalfTemp->data) {
+            result = false;
+            break;
+        }
+        firstHalf = firstHalf->next;
+        secondHalfTemp = secondHalfTemp->next;
+    }
+
+   
+    secondHalf = reverseList(secondHalf);
+    if (midNode != NULL) { // Connect midNode if it exists
+        prevSlow->next = midNode;
+        midNode->next = secondHalf;
+    } else {
+        prevSlow->next = secondHalf;
+    }
+
+    return result;
+}
+
+
+int main() {
+    struct Node* head = NULL;
+
+  
+    char str1[] = "madam";
+    char str2[] = "racecar";
+    char str3[] = "hello";
+    
+   
+    for (int i = 0; str1[i] != '\0'; i++) {
+        insertAtBeginning(&head, str1[i]);
+    }
+    printf("Original List for str1 (madam):\n");
+    printList(head);
+    if (isPalindrome(head)) {
+        printf("Result: str1 (madam) is a palindrome.\n");
+    } else {
+        printf("Result: str1 (madam) is not a palindrome.\n");
+    }
+    printf("\n");
+
+    head = NULL; 
+    for (int i = 0; str2[i] != '\0'; i++) {
+        insertAtBeginning(&head, str2[i]);
+    }
+    printf("Original List for str2 (racecar):\n");
+    printList(head);
+    if (isPalindrome(head)) {
+        printf("Result: str2 (racecar) is a palindrome.\n");
+    } else {
+        printf("Result: str2 (racecar) is not a palindrome.\n");
+    }
+    printf("\n");
+
+  
+    head = NULL; 
+    for (int i = 0; str3[i] != '\0'; i++) {
+        insertAtBeginning(&head, str3[i]);
+    }
+    printf("Original List for str3 (hello):\n");
+    printList(head);
+    if (isPalindrome(head)) {
+        printf("Result: str3 (hello) is a palindrome.\n");
+    } else {
+        printf("Result: str3 (hello) is not a palindrome.\n");
+    }
+
+    return 0;
+}
