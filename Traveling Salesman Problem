@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <limits.h>
+
+#define V 4
+
+int tsp(int graph[V][V], int path[], int pos, int n, int count, int cost, int* ans) {
+    if (count == n && graph[path[pos - 1]][path[0]]) {
+        if (*ans > cost + graph[path[pos - 1]][path[0]]) {
+            *ans = cost + graph[path[pos - 1]][path[0]];
+        }
+        return *ans;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (pos == 0 || (graph[path[pos - 1]][i] && !path[i])) {
+            path[pos] = i;
+            tsp(graph, path, pos + 1, n, count + 1, cost + graph[path[pos - 1]][i], ans);
+            path[pos] = -1;
+        }
+    }
+    return *ans;
+}
+
+int main() {
+    int graph[V][V] = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+
+    int path[V];
+    for (int i = 0; i < V; i++) {
+        path[i] = -1;
+    }
+    path[0] = 0;
+
+    int ans = INT_MAX;
+
+    printf("Minimum cost of the tour is %d\n", tsp(graph, path, 1, V, 1, 0, &ans));
+    return 0;
+}
