@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <string.h>
+
+int is_valid_string(const char *str) {
+   
+    if (str == NULL || strlen(str) == 0) {
+        return 0; // Invalid string
+    }
+    return 1; 
+}
+
+int main() {
+    char input[100]; 
+    
+    printf("Enter a string: ");
+    fgets(input, sizeof(input), stdin);
+    
+       input[strcspn(input, "\n")] = '\0';
+    
+    if (is_valid_string(input)) {
+        printf("Valid string entered: %s\n", input);
+    } else {
+        printf("Invalid string entered. Please enter a non-empty string.\n");
+    }
+    
+    return 0;
+}
