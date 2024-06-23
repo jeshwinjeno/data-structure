@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct ListNode {
+    int data;
+    struct ListNode* next;
+};
+
+
+struct ListNode* createNode(int data) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    if (newNode == NULL) {
+        perror("Memory allocation failed");
+        return NULL;
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+
+void insertAtBeginning(struct ListNode** head, int data) {
+    struct ListNode* newNode = createNode(data);
+    if (newNode == NULL) {
+        return; 
+    }
+    newNode->next = *head;
+    *head = newNode;
+}
+
+
+void reverseLinkedList(struct ListNode** head) {
+    struct ListNode *prev, *current, *next;
+    current = *head;
+    prev = NULL;
+
+    while (current != NULL) {
+        next = current->next; 
+        current->next = prev;  
+
+      
+        prev = current;
+        current = next;
+    }
+    *head = prev;   
+}
+
+
+void printLinkedList(struct ListNode* head) {
+    struct ListNode* current = head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+
+void freeLinkedList(struct ListNode* head) {
+    struct ListNode* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
+int main() {
+    struct ListNode* head = NULL;
+
+   
+    insertAtBeginning(&head, 1);
+    insertAtBeginning(&head, 2);
+    insertAtBeginning(&head, 3);
+    insertAtBeginning(&head, 4);
+    insertAtBeginning(&head, 5);
+
+    
+    printf("Original linked list:\n");
+    printLinkedList(head);
+
+    
+    reverseLinkedList(&head);
+
+    
+    printf("\nReversed linked list:\n");
+    printLinkedList(head);
+
+    
+    freeLinkedList(head);
+
+    return 0;
+}
