@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+
+int searchRegNo(char regNos[][20], int size, char target[]) {
+    for (int i = 0; i < size; i++) {
+        if (strcmp(regNos[i], target) == 0) {
+            return i; // Return the index of the found registration number
+        }
+    }
+    return -1;
+}
+
+int main() {
+  
+    char regNos[][20] = {"ABC123", "DEF456", "GHI789", "JKL012", "MNO345"};
+    int size = sizeof(regNos) / sizeof(regNos[0]);
+
+   
+    char target[20];
+    printf("Enter the registration number to search for: ");
+    scanf("%s", target);
+
+    
+    int result = searchRegNo(regNos, size, target);
+
+    if (result != -1) {
+        printf("Registration number %s found at index %d.\n", target, result);
+    } else {
+        printf("Registration number %s not found.\n", target);
+    }
+
+    return 0;
+}
