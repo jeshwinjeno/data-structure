@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <limits.h>  
+int reverse_integer(int x) {
+    int reversed = 0;
+    while (x != 0) {
+        int pop = x % 10;
+        x /= 10;
+if (reversed > INT_MAX / 10 || (reversed == INT_MAX / 10 && pop > 7)) return 0;
+if (reversed < INT_MIN / 10 || (reversed == INT_MIN / 10 && pop < -8)) return 0;
+        
+        reversed = reversed * 10 + pop;
+    }
+    return reversed;
+}
+
+int main() {
+int num;
+printf("Enter a 32-bit signed integer: ");
+scanf("%d", &num);
+int reversed_num = reverse_integer(num);
+printf("Reversed number is: %d\n", reversed_num);
+return 0;
+}
