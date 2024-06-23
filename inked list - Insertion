@@ -1,0 +1,83 @@
+void insertAtBeginning(struct LinkedList* list, int data) {
+    struct ListNode* newNode = createNode(data);
+    if (newNode == NULL) {
+        return;
+    }
+    newNode->next = list->head;
+    list->head = newNode;
+}
+void insertAtEnd(struct LinkedList* list, int data) {
+    struct ListNode* newNode = createNode(data);
+    if (newNode == NULL) {
+        return; // Failed to allocate memory
+    }
+    
+    if (list->head == NULL) {
+        list->head = newNode;
+        return;
+    }
+    
+    struct ListNode* current = list->head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = newNode;
+}
+void insertAtPosition(struct LinkedList* list, int data, int position) {
+    if (position <= 0) {
+        fprintf(stderr, "Invalid position\n");
+        return;
+    }
+    
+    struct ListNode* newNode = createNode(data);
+    if (newNode == NULL) {
+        return; // Failed to allocate memory
+    }
+    
+    if (position == 1) {
+        newNode->next = list->head;
+        list->head = newNode;
+        return;
+    }
+    
+    struct ListNode* current = list->head;
+    int currentPosition = 1;
+    
+    while (current != NULL && currentPosition < position - 1) {
+        current = current->next;
+        currentPosition++;
+    }
+    
+    if (current == NULL) {
+        fprintf(stderr, "Position out of range\n");
+        return;
+    }
+    
+    newNode->next = current->next;
+    current->next = newNode;
+}
+int main() {
+    struct LinkedList* list = createLinkedList();
+
+   
+    insertAtBeginning(list, 1);
+    insertAtBeginning(list, 2);
+    insertAtBeginning(list, 3);
+
+    insertAtEnd(list, 4);
+    insertAtEnd(list, 5);
+
+  
+    insertAtPosition(list, 10, 2); // Insert 10 at position 2
+
+   
+    printf("Linked List: ");
+    struct ListNode* current = list->head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+
+    return 0;
+}
